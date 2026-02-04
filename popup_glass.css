@@ -1,0 +1,474 @@
+/**
+ * Mozhii Note - Glassmorphism Styles (Restored)
+ * Modern dark UI with blur effects and gradients
+ */
+
+/* ============================================
+   CSS VARIABLES
+   ============================================ */
+:root {
+  /* Brand Colors - Deep Blue Core */
+  --primary: #0B0377;
+  --primary-gradient: linear-gradient(135deg, #0B0377 0%, #05014a 100%);
+  --secondary: #10b981;
+  --accent: #FFEB3B;
+  --danger: #ef4444;
+  
+  /* Glassmorphism Backgrounds */
+  --bg-dark: #0f172a;
+  --bg-glass: rgba(30, 41, 59, 0.7);
+  --bg-glass-strong: rgba(15, 23, 42, 0.85);
+  --bg-card: rgba(255, 255, 255, 0.05);
+  --bg-card-hover: rgba(255, 255, 255, 0.1);
+  
+  /* Text */
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dark: #1e293b;
+  
+  /* Globals */
+  --border-glass: 1px solid rgba(255, 255, 255, 0.1);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+/* ============================================
+   BASE
+   ============================================ */
+body {
+  width: 400px;
+  height: 600px;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(145deg, #0f172a 0%, #0B0377 150%);
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body.popout-mode {
+  width: 100%;
+  height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
+
+/* ============================================
+   HEADER
+   ============================================ */
+.header {
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: var(--border-glass);
+  z-index: 10;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.logo-section h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(to right, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background: var(--primary);
+  transform: translateY(-2px);
+}
+
+.search-container {
+  position: relative;
+}
+
+#search {
+  width: 100%;
+  padding: 10px 40px;
+  background: rgba(0,0,0,0.2);
+  border: var(--border-glass);
+  border-radius: var(--radius-md);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+#search:focus {
+  background: rgba(0,0,0,0.4);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.5;
+  width: 16px;
+}
+
+.note-count-badge {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  background: var(--primary);
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+/* ============================================
+   FILTERS
+   ============================================ */
+.filters {
+  padding: 10px 20px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  border-bottom: var(--border-glass);
+}
+
+.filter-tab {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s;
+}
+
+.filter-tab.active, .filter-tab:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* ============================================
+   NOTES LIST
+   ============================================ */
+.notes-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.note-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(4px);
+  border: var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: 0.3s;
+  animation: slideIn 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.note-card:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.note-card.manual-note {
+  border-left: 3px solid var(--accent);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.note-content {
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e2e8f0;
+}
+
+.note-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: #cbd5e1;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 10px;
+}
+
+.actions button {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border: none;
+  color: var(--text-muted);
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 12px;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.actions button:hover {
+  background: rgba(255,255,255,0.15);
+  color: white;
+}
+
+.btn-jump:hover {
+  background: var(--primary) !important;
+}
+
+.btn-delete:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #fca5a5 !important;
+}
+
+/* ============================================
+   MODALS (Glassmorphism)
+   ============================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.modal-overlay[style*="display: flex"] { /* Visible state trigger */
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+  border: var(--border-glass);
+  width: 90%;
+  max-width: 360px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 85vh;
+}
+
+.modal-header {
+  padding: 15px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: var(--border-glass);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--text-main);
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-close:hover { color: white; }
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Info Styling */
+.stats-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--primary-light);
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.info-block {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.feature-list li {
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #cbd5e1;
+}
+
+.feature-list strong {
+    color: var(--accent);
+}
+
+kbd {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: white;
+}
+
+/* Form Elements */
+input, textarea {
+  width: 100%;
+  background: rgba(0,0,0,0.2);
+  border: var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  color: white;
+  font-family: inherit;
+  margin-bottom: 15px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(0,0,0,0.4);
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.btn {
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+}
+
+.btn-primary {
+  background: var(--primary); /* Deep Blue */
+  color: white;
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+/* Footer */
+.footer {
+    padding: 12px 20px;
+    border-top: var(--border-glass);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(15,23,42,0.8);
+}
+
+.footer span {
+    font-size: 11px;
+    color: #64748b;
+}
+
+/* Loaders & Empty States */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+.empty-icon { font-size: 40px; margin-bottom: 10px; opacity: 0.5; }

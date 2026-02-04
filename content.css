@@ -1,0 +1,473 @@
+/**
+ * Mozhii Note - Content Script Styles
+ * Styles for highlights, tooltips, modals, and toasts
+ */
+
+/* ============================================
+   HIGHLIGHT STYLES
+   ============================================ */
+
+.mozhii-highlight {
+  background-color: rgba(255, 235, 59, 0.3);
+  background-color: var(--highlight-color, rgba(255, 235, 59, 0.3));
+  cursor: pointer;
+  position: relative;
+  border-radius: 2px;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  padding: 1px 0;
+}
+
+.mozhii-highlight:hover {
+  background-color: rgba(255, 235, 59, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 235, 59, 0.3);
+}
+
+/* Pulse animation for restored notes */
+.mozhii-pulse {
+  animation: mozhii-pulse-animation 0.5s ease-in-out 4;
+}
+
+@keyframes mozhii-pulse-animation {
+  0%, 100% {
+    background-color: rgba(255, 235, 59, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    background-color: rgba(255, 235, 59, 0.8);
+    box-shadow: 0 0 12px rgba(255, 235, 59, 0.6);
+  }
+}
+
+/* Tooltip for comments */
+.mozhii-highlight[data-comment]:not([data-comment=""]):hover::after {
+  content: attr(data-comment);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: normal;
+  max-width: 300px;
+  z-index: 10000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.mozhii-highlight[data-comment]:not([data-comment=""]):hover::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #333;
+  z-index: 10001;
+}
+
+/* ============================================
+   TOAST NOTIFICATION
+   ============================================ */
+
+.mozhii-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-shadow: 0 4px 16px rgba(33, 150, 243, 0.3);
+  z-index: 2147483647;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.mozhii-toast-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================
+   ANNOTATION MODAL
+   ============================================ */
+
+.mozhii-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2147483646;
+  animation: mozhii-modal-fadein 0.2s ease;
+}
+
+@keyframes mozhii-modal-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mozhii-modal-closing {
+  animation: mozhii-modal-fadeout 0.2s ease forwards;
+}
+
+@keyframes mozhii-modal-fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.mozhii-modal-content {
+  background: white;
+  border-radius: 0; /* Square UI */
+  width: 90%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  animation: mozhii-modal-slidein 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@keyframes mozhii-modal-slidein {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mozhii-modal-header {
+  background: #f8f9fa;
+  color: #333;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #0B0377; /* Brand color accent */
+}
+
+.mozhii-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0B0377;
+}
+
+.mozhii-modal-close {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.mozhii-modal-close:hover {
+  color: #333;
+}
+
+.mozhii-modal-body {
+  padding: 20px;
+}
+
+.mozhii-modal-preview {
+  background: #f0f2f5;
+  border-left: 3px solid #ccc;
+  border-radius: 0;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.mozhii-modal-preview strong {
+  font-size: 11px;
+  color: #666;
+  display: block;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mozhii-modal-preview p {
+  margin: 0;
+  font-size: 13px;
+  color: #333;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.mozhii-modal-field {
+  margin-bottom: 16px;
+}
+
+.mozhii-modal-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.mozhii-modal-field textarea,
+.mozhii-modal-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 0; /* Square UI */
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.mozhii-modal-field textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.mozhii-modal-field textarea:focus,
+.mozhii-modal-field input:focus {
+  outline: none;
+  border-color: #0B0377;
+  background: #fff;
+}
+
+.mozhii-tag-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.mozhii-tag-suggestion {
+  background: #f0f0f0;
+  color: #555;
+  padding: 4px 10px;
+  border-radius: 0; /* Square */
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.mozhii-tag-suggestion:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.mozhii-tag-suggestion.mozhii-tag-selected {
+  background: #e6e6ff; /* Light blue tint */
+  color: #0B0377;
+  border-color: #0B0377;
+}
+
+.mozhii-modal-footer {
+  padding: 16px 20px;
+  background: #fff;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #eee;
+}
+
+.mozhii-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px; /* Rounded */
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.mozhii-btn-primary {
+  background: #0B0377;
+  color: white;
+}
+
+.mozhii-btn-primary:hover {
+  background: #090260;
+}
+
+.mozhii-btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.mozhii-btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  .mozhii-highlight {
+    background-color: rgba(255, 235, 59, 0.25);
+  }
+  
+  .mozhii-highlight:hover {
+    background-color: rgba(255, 235, 59, 0.4);
+  }
+}
+
+/* ============================================
+   SIDE NOTIFICATION
+   ============================================ */
+
+.mozhii-side-notification {
+  position: fixed;
+  top: 80px;
+  right: -350px;
+  width: 320px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  z-index: 2147483647;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-left: 4px solid #0B0377; /* Deep Blue brand */
+  overflow: hidden;
+}
+
+.mozhii-side-notification-visible {
+  right: 20px;
+}
+
+.mozhii-side-notification-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+.mozhii-side-icon {
+  margin-right: 8px;
+  color: #0B0377;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.mozhii-side-title {
+  font-weight: 600;
+  color: #333;
+  flex-grow: 1;
+  font-size: 14px;
+}
+
+.mozhii-side-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.mozhii-side-close:hover {
+  color: #333;
+}
+
+.mozhii-side-body {
+  padding: 15px;
+  cursor: pointer;
+}
+
+.mozhii-side-text {
+  margin: 0 0 10px 0;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #555;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-style: italic;
+}
+
+.mozhii-side-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.mozhii-side-hint {
+  font-size: 11px;
+  color: #0B0377;
+  font-weight: 500;
+}
+
+.mozhii-side-edit-btn {
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.mozhii-side-edit-btn:hover {
+    background: #e0e0e0;
+    border-color: #ccc;
+    color: #000;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .mozhii-highlight {
+    background-color: rgba(255, 235, 59, 0.3) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .mozhii-modal,
+  .mozhii-toast,
+  .mozhii-side-notification {
+    display: none !important;
+  }
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mozhii Note - Icon Generator</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f7fa;
+    }
+    h1 { color: #1565C0; }
+    .icon-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .icon-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    canvas { display: block; margin: 10px auto; }
+    button {
+      background: #2196F3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover { background: #1976D2; }
+    .instructions {
+      background: #E3F2FD;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📝 Mozhii Note Icon Generator</h1>
+  
+  <div class="instructions">
+    <p><strong>Instructions:</strong></p>
+    <ol>
+      <li>Click "Download" under each icon size</li>
+      <li>Save the PNG files to the <code>icons/</code> folder</li>
+      <li>Replace the .svg files with these .png files</li>
+    </ol>
+  </div>
+  
+  <div class="icon-container">
+    <div class="icon-box">
+      <h3>16x16</h3>
+      <canvas id="icon16" width="16" height="16"></canvas>
+      <button onclick="downloadIcon(16)">Download icon16.png</button>
+    </div>
+    
+    <div class="icon-box">
+      <h3>48x48</h3>
+      <canvas id="icon48" width="48" height="48"></canvas>
+      <button onclick="downloadIcon(48)">Download icon48.png</button>
+    </div>
+    
+    <div class="icon-box">
+      <h3>128x128</h3>
+      <canvas id="icon128" width="128" height="128"></canvas>
+      <button onclick="downloadIcon(128)">Download icon128.png</button>
+    </div>
+  </div>
+
+  <script>
+    function drawIcon(size) {
+      const canvas = document.getElementById(`icon${size}`);
+      const ctx = canvas.getContext('2d');
+      
+      // Create gradient
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#2196F3');
+      gradient.addColorStop(1, '#1565C0');
+      
+      // Draw rounded rectangle
+      const radius = size * 0.15;
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(size - radius, 0);
+      ctx.quadraticCurveTo(size, 0, size, radius);
+      ctx.lineTo(size, size - radius);
+      ctx.quadraticCurveTo(size, size, size - radius, size);
+      ctx.lineTo(radius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Draw notepad icon
+      ctx.fillStyle = 'white';
+      
+      // Notepad body
+      const pad = size * 0.2;
+      const noteWidth = size * 0.55;
+      const noteHeight = size * 0.6;
+      const noteX = (size - noteWidth) / 2;
+      const noteY = size * 0.22;
+      
+      // Paper with fold
+      ctx.beginPath();
+      ctx.moveTo(noteX, noteY);
+      ctx.lineTo(noteX + noteWidth - size * 0.12, noteY);
+      ctx.lineTo(noteX + noteWidth, noteY + size * 0.12);
+      ctx.lineTo(noteX + noteWidth, noteY + noteHeight);
+      ctx.lineTo(noteX, noteY + noteHeight);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Fold corner
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      ctx.beginPath();
+      ctx.moveTo(noteX + noteWidth - size * 0.12, noteY);
+      ctx.lineTo(noteX + noteWidth - size * 0.12, noteY + size * 0.12);
+      ctx.lineTo(noteX + noteWidth, noteY + size * 0.12);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Lines on paper
+      ctx.strokeStyle = '#1565C0';
+      ctx.lineWidth = Math.max(1, size * 0.02);
+      const lineStart = noteX + size * 0.08;
+      const lineEnd = noteX + noteWidth - size * 0.08;
+      
+      for (let i = 0; i < 3; i++) {
+        const y = noteY + size * 0.18 + (i * size * 0.12);
+        ctx.beginPath();
+        ctx.moveTo(lineStart, y);
+        ctx.lineTo(lineEnd, y);
+        ctx.stroke();
+      }
+      
+      // Pencil
+      ctx.fillStyle = '#FFC107';
+      const pencilWidth = size * 0.08;
+      const pencilHeight = size * 0.35;
+      ctx.save();
+      ctx.translate(noteX + noteWidth - size * 0.05, noteY + noteHeight - size * 0.08);
+      ctx.rotate(Math.PI / 4);
+      ctx.fillRect(-pencilWidth/2, -pencilHeight, pencilWidth, pencilHeight);
+      
+      // Pencil tip
+      ctx.fillStyle = '#5D4037';
+      ctx.beginPath();
+      ctx.moveTo(-pencilWidth/2, 0);
+      ctx.lineTo(pencilWidth/2, 0);
+      ctx.lineTo(0, size * 0.06);
+      ctx.closePath();
+      ctx.fill();
+      
+      ctx.restore();
+    }
+    
+    function downloadIcon(size) {
+      const canvas = document.getElementById(`icon${size}`);
+      const link = document.createElement('a');
+      link.download = `icon${size}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+    
+    // Draw all icons on load
+    [16, 48, 128].forEach(drawIcon);
+  </script>
+</body>
+</html>
