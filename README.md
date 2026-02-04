@@ -218,6 +218,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - [ ] Firefox support
 - [ ] Safari support
 
----
+<img width="428" height="603" alt="Screenshot 2026-02-04 at 09 13 43" src="https://github.com/user-attachments/assets/6000b3c5-60c7-4920-920f-c6ec856d55d3" />
 
-Made with ❤️ for learners, researchers, and knowledge collectors.
+<img width="428" height="603" alt="Screenshot 2026-02-04 at 09 13 58" src="https://github.com/user-attachments/assets/c6c0aebd-9e8c-4510-a8b8-3c9cdeb67da7" />
+
+---
