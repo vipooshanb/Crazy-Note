@@ -1,4 +1,4 @@
-# 📝 Mozhii Note
+# 📝 Crazy Note
 
 > "Notes that remember where, why, and how you learned something."
 
